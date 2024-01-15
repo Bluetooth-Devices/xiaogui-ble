@@ -20,7 +20,7 @@ from sensor_state_data import (
 
 from .parser import XiaoguiBluetoothDeviceData
 
-__version__ = "0.0.0"
+__version__ = "0.1.0"
 
 __all__ = [
     "XiaoguiBluetoothDeviceData",

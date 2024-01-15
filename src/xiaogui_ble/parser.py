@@ -42,13 +42,13 @@ class XiaoguiBluetoothDeviceData(BluetoothData):
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
         _LOGGER.debug("Parsing Xiaogui BLE advertisement data: %s", service_info)
-        address = service_info.address
-        self.set_device_manufacturer("Xiaogui")
-
-        mfr_list = list(service_info.manufacturer_data)
-        if not mfr_list:
+        if (
+            not service_info.manufacturer_data
+            or service_info.service_data
+            or service_info.service_uuids
+        ):
             return
-
+        address = service_info.address
         last_id = list(service_info.manufacturer_data)[-1]
         last_data = service_info.manufacturer_data[last_id]
         if len(last_data) != 13:
@@ -61,6 +61,7 @@ class XiaoguiBluetoothDeviceData(BluetoothData):
 
         model = last_data[6]
         if device_type := _DEVICE_TYPE_FROM_MODEL.get(model):
+            self.set_device_manufacturer("Xiaogui")
             self.set_device_type(device_type)
             name = f"{device_type} {short_address(address)}"
             self.set_title(name)
@@ -81,7 +82,26 @@ class XiaoguiBluetoothDeviceData(BluetoothData):
             + changed_manufacturer_data[last_id]
         )
         xvalue = data[1:9]
+        import pprint
+
         (frame_cnt, weight, impedance, control, stabilized_byte) = UNPACK_DATA(xvalue)
+        pprint.pprint(
+            [
+                "xvalue",
+                xvalue,
+                "frame_cnt",
+                frame_cnt,
+                "weight",
+                weight,
+                "impedance",
+                impedance,
+                "control",
+                control,
+                "stabilized_byte",
+                stabilized_byte,
+            ]
+        )
+
         packet_id = frame_cnt << 8 | stabilized_byte
         self.update_predefined_sensor(SensorLibrary.PACKET_ID__NONE, packet_id)
         if stabilized_byte in (0x20,):

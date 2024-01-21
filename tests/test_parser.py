@@ -45,12 +45,35 @@ SCALE_SERVICE_INFO_3 = BluetoothServiceInfo(
     source="local",
 )
 
+SCALE_SERVICE_INFO_KGS = BluetoothServiceInfo(
+    name="",
+    address="5F:5A:5C:52:D3:94",
+    rssi=-63,
+    manufacturer_data={22976: b"\x00\x00\x00\x00\x00\x02 _Z\\R\xd3\x94"},
+    service_uuids=[],
+    service_data={},
+    source="local",
+)
+
+SCALE_SERVICE_INFO_KGS_2 = BluetoothServiceInfo(
+    name="",
+    address="5F:5A:5C:52:D3:94",
+    rssi=-63,
+    manufacturer_data={
+        22976: b"\x00\x00\x00\x00\x00\x02 _Z\\R\xd3\x94",
+        27328: b"\x00\x00\x00\x00\x00\x02 _Z\\R\xd3\x94",
+    },
+    service_uuids=[],
+    service_data={},
+    source="local",
+)
+
 
 def test_can_create():
     XiaoguiBluetoothDeviceData()
 
 
-def test_scale():
+def test_scale_lbs():
     parser = XiaoguiBluetoothDeviceData()
     result = parser.update(SCALE_SERVICE_INFO)
     assert result == SensorUpdate(
@@ -85,7 +108,7 @@ def test_scale():
             DeviceKey(key="non_stabilized_mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
                 name="Non " "Stabilized " "Mass",
-                native_value=17.0,
+                native_value=170.0,
             ),
             DeviceKey(key="packet_id", device_id=None): SensorValue(
                 device_key=DeviceKey(key="packet_id", device_id=None),
@@ -145,7 +168,7 @@ def test_scale():
             DeviceKey(key="non_stabilized_mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
                 name="Non " "Stabilized " "Mass",
-                native_value=17.0,
+                native_value=170.0,
             ),
             DeviceKey(key="packet_id", device_id=None): SensorValue(
                 device_key=DeviceKey(key="packet_id", device_id=None),
@@ -160,7 +183,7 @@ def test_scale():
             DeviceKey(key="mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="mass", device_id=None),
                 name="Mass",
-                native_value=17.0,
+                native_value=170.0,
             ),
             DeviceKey(key="impedance", device_id=None): SensorValue(
                 device_key=DeviceKey(key="impedance", device_id=None),
@@ -227,7 +250,7 @@ def test_scale():
             DeviceKey(key="non_stabilized_mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
                 name="Non " "Stabilized " "Mass",
-                native_value=16.78,
+                native_value=167.8,
             ),
             DeviceKey(key="impedance", device_id=None): SensorValue(
                 device_key=DeviceKey(key="impedance", device_id=None),
@@ -237,7 +260,111 @@ def test_scale():
             DeviceKey(key="mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="mass", device_id=None),
                 name="Mass",
-                native_value=17.0,
+                native_value=170.0,
+            ),
+        },
+        binary_entity_descriptions={},
+        binary_entity_values={},
+        events={},
+    )
+
+
+def test_scale_kgs():
+    parser = XiaoguiBluetoothDeviceData()
+    result = parser.update(SCALE_SERVICE_INFO_KGS)
+    assert result == SensorUpdate(
+        title="TZC4 D394",
+        devices={
+            None: SensorDeviceInfo(
+                name="TZC4 D394",
+                model="TZC4",
+                manufacturer="Xiaogui",
+                sw_version=None,
+                hw_version=None,
+            )
+        },
+        entity_descriptions={
+            DeviceKey(key="non_stabilized_mass", device_id=None): SensorDescription(
+                device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
+                device_class=SensorDeviceClass.MASS_NON_STABILIZED,
+                native_unit_of_measurement=Units.MASS_KILOGRAMS,
+            ),
+            DeviceKey(key="packet_id", device_id=None): SensorDescription(
+                device_key=DeviceKey(key="packet_id", device_id=None),
+                device_class=SensorDeviceClass.PACKET_ID,
+                native_unit_of_measurement=None,
+            ),
+            DeviceKey(key="signal_strength", device_id=None): SensorDescription(
+                device_key=DeviceKey(key="signal_strength", device_id=None),
+                device_class=SensorDeviceClass.SIGNAL_STRENGTH,
+                native_unit_of_measurement=Units.SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+            ),
+        },
+        entity_values={
+            DeviceKey(key="non_stabilized_mass", device_id=None): SensorValue(
+                device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
+                name="Non " "Stabilized " "Mass",
+                native_value=0.0,
+            ),
+            DeviceKey(key="packet_id", device_id=None): SensorValue(
+                device_key=DeviceKey(key="packet_id", device_id=None),
+                name="Packet " "Id",
+                native_value=22816,
+            ),
+            DeviceKey(key="signal_strength", device_id=None): SensorValue(
+                device_key=DeviceKey(key="signal_strength", device_id=None),
+                name="Signal " "Strength",
+                native_value=-63,
+            ),
+        },
+        binary_entity_descriptions={},
+        binary_entity_values={},
+        events={},
+    )
+    result = parser.update(SCALE_SERVICE_INFO_KGS_2)
+    assert result == SensorUpdate(
+        title="TZC4 D394",
+        devices={
+            None: SensorDeviceInfo(
+                name="TZC4 D394",
+                model="TZC4",
+                manufacturer="Xiaogui",
+                sw_version=None,
+                hw_version=None,
+            )
+        },
+        entity_descriptions={
+            DeviceKey(key="non_stabilized_mass", device_id=None): SensorDescription(
+                device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
+                device_class=SensorDeviceClass.MASS_NON_STABILIZED,
+                native_unit_of_measurement=Units.MASS_KILOGRAMS,
+            ),
+            DeviceKey(key="packet_id", device_id=None): SensorDescription(
+                device_key=DeviceKey(key="packet_id", device_id=None),
+                device_class=SensorDeviceClass.PACKET_ID,
+                native_unit_of_measurement=None,
+            ),
+            DeviceKey(key="signal_strength", device_id=None): SensorDescription(
+                device_key=DeviceKey(key="signal_strength", device_id=None),
+                device_class=SensorDeviceClass.SIGNAL_STRENGTH,
+                native_unit_of_measurement=Units.SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+            ),
+        },
+        entity_values={
+            DeviceKey(key="non_stabilized_mass", device_id=None): SensorValue(
+                device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
+                name="Non " "Stabilized " "Mass",
+                native_value=0.0,
+            ),
+            DeviceKey(key="packet_id", device_id=None): SensorValue(
+                device_key=DeviceKey(key="packet_id", device_id=None),
+                name="Packet " "Id",
+                native_value=27168,
+            ),
+            DeviceKey(key="signal_strength", device_id=None): SensorValue(
+                device_key=DeviceKey(key="signal_strength", device_id=None),
+                name="Signal " "Strength",
+                native_value=-63,
             ),
         },
         binary_entity_descriptions={},

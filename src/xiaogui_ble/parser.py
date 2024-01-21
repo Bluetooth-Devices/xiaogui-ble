@@ -35,6 +35,8 @@ _DEVICE_TYPE_FROM_MODEL = {
     0x31: "TZC4",
 }
 
+LBS_TO_KGS = 0.45359237
+
 
 class XiaoguiBluetoothDeviceData(BluetoothData):
     """Data for Xiaogui BLE sensors."""
@@ -82,46 +84,40 @@ class XiaoguiBluetoothDeviceData(BluetoothData):
             + changed_manufacturer_data[last_id]
         )
         xvalue = data[1:9]
-        import pprint
-
         (frame_cnt, weight, impedance, control, stabilized_byte) = UNPACK_DATA(xvalue)
-        pprint.pprint(
-            [
-                "xvalue",
-                xvalue,
-                "frame_cnt",
-                frame_cnt,
-                "weight",
-                weight,
-                "impedance",
-                impedance,
-                "control",
-                control,
-                "stabilized_byte",
-                stabilized_byte,
-            ]
-        )
-
+        self.set_precision(2)
         packet_id = frame_cnt << 8 | stabilized_byte
         self.update_predefined_sensor(SensorLibrary.PACKET_ID__NONE, packet_id)
-        if stabilized_byte in (0x20,):
+        if stabilized_byte in (0x20,):  # KGS
             self.update_predefined_sensor(
                 SensorLibrary.MASS_NON_STABILIZED__MASS_KILOGRAMS,
                 weight / 10,
                 "non_stabilized_mass",
             )
-        elif stabilized_byte in (0x21,):
+        elif stabilized_byte in (0x21,):  # KGS
             self.update_predefined_sensor(
                 SensorLibrary.MASS__MASS_KILOGRAMS, weight / 10
             )
             self.update_predefined_sensor(SensorLibrary.IMPEDANCE__OHM, impedance / 10)
-        elif stabilized_byte in (0x24, 0x30):
+        elif stabilized_byte in (0x30,):  # LBS
+            self.update_predefined_sensor(
+                SensorLibrary.MASS_NON_STABILIZED__MASS_KILOGRAMS,
+                (weight / 10) * LBS_TO_KGS,
+                "non_stabilized_mass",
+            )
+        elif stabilized_byte in (0x31,):  # LBS
+            self.update_predefined_sensor(
+                SensorLibrary.MASS__MASS_KILOGRAMS,
+                (weight / 10) * LBS_TO_KGS,
+            )
+            self.update_predefined_sensor(SensorLibrary.IMPEDANCE__OHM, impedance / 10)
+        elif stabilized_byte in (0x24,):  # KGS
             self.update_predefined_sensor(
                 SensorLibrary.MASS_NON_STABILIZED__MASS_KILOGRAMS,
                 weight / 100,
                 "non_stabilized_mass",
             )
-        elif stabilized_byte in (0x25, 0x31):
+        elif stabilized_byte in (0x25,):  # KGS
             self.update_predefined_sensor(
                 SensorLibrary.MASS__MASS_KILOGRAMS, weight / 100
             )

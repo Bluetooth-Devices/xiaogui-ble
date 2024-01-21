@@ -108,7 +108,7 @@ def test_scale_lbs():
             DeviceKey(key="non_stabilized_mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
                 name="Non " "Stabilized " "Mass",
-                native_value=170.0,
+                native_value=77.11,
             ),
             DeviceKey(key="packet_id", device_id=None): SensorValue(
                 device_key=DeviceKey(key="packet_id", device_id=None),
@@ -168,7 +168,7 @@ def test_scale_lbs():
             DeviceKey(key="non_stabilized_mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
                 name="Non " "Stabilized " "Mass",
-                native_value=170.0,
+                native_value=77.11,
             ),
             DeviceKey(key="packet_id", device_id=None): SensorValue(
                 device_key=DeviceKey(key="packet_id", device_id=None),
@@ -183,7 +183,7 @@ def test_scale_lbs():
             DeviceKey(key="mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="mass", device_id=None),
                 name="Mass",
-                native_value=170.0,
+                native_value=77.11,
             ),
             DeviceKey(key="impedance", device_id=None): SensorValue(
                 device_key=DeviceKey(key="impedance", device_id=None),
@@ -250,7 +250,7 @@ def test_scale_lbs():
             DeviceKey(key="non_stabilized_mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="non_stabilized_mass", device_id=None),
                 name="Non " "Stabilized " "Mass",
-                native_value=167.8,
+                native_value=76.11,
             ),
             DeviceKey(key="impedance", device_id=None): SensorValue(
                 device_key=DeviceKey(key="impedance", device_id=None),
@@ -260,7 +260,7 @@ def test_scale_lbs():
             DeviceKey(key="mass", device_id=None): SensorValue(
                 device_key=DeviceKey(key="mass", device_id=None),
                 name="Mass",
-                native_value=170.0,
+                native_value=77.11,
             ),
         },
         binary_entity_descriptions={},

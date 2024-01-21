@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.1 (2024-01-21)
+
+### Fix
+
+- Add support for lbs (#3) ([`8dc2c44`](https://github.com/Bluetooth-Devices/xiaogui-ble/commit/8dc2c440b0cd991df1c507c6d0cb3d6ada24f377))
+
 ## v0.1.0 (2024-01-15)
 
 ### Fix
